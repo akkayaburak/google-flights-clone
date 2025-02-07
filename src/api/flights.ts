@@ -1,0 +1,28 @@
+import axios from "axios";
+import { FlightSearchParams, FlightResponse } from "../types";
+
+const API_HOST = "sky-scrapper.p.rapidapi.com";
+const API_KEY = process.env.REACT_APP_RAPIDAPI_KEY || "";
+
+const apiClient = axios.create({
+  baseURL: `https://${API_HOST}`,
+  headers: {
+    "x-rapidapi-key": API_KEY,
+    "x-rapidapi-host": API_HOST,
+  },
+});
+
+// Uçuşları getir
+export const searchFlights = async (
+  params: FlightSearchParams
+): Promise<FlightResponse> => {
+  try {
+    const response = await apiClient.get<FlightResponse>("/search-flights", {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Flight search error:", error);
+    throw error;
+  }
+};
