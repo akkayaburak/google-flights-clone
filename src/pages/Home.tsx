@@ -1,57 +1,28 @@
+// src/pages/Home.tsx
 import React, { useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
-import { Flight } from "../types";
+import FlightResults from "../components/FlightResults";
 import SearchForm from "../features/search/SearchForm";
-import FlightCard from "../components/FlightCard";
+import { Flight } from "../types"; // Flight tipini import et
+import { Container } from "@mui/material";
 
 const Home: React.FC = () => {
   const [flights, setFlights] = useState<Flight[]>([]);
 
   const handleSearch = (from: Date | null, to: Date | null) => {
     if (from && to) {
-      const newFlights: Flight[] = [
-        {
-          id: "1",
-          from: from.toLocaleDateString(),
-          to: to.toLocaleDateString(),
-          price: 100,
-        },
-        {
-          id: "2",
-          from: from.toLocaleDateString(),
-          to: to.toLocaleDateString(),
-          price: 200,
-        },
-        {
-          id: "3",
-          from: from.toLocaleDateString(),
-          to: to.toLocaleDateString(),
-          price: 300,
-        },
+      const fetchedFlights: Flight[] = [
+        { id: "1", from: "New York", to: "London", price: 500 },
+        { id: "2", from: "Paris", to: "Berlin", price: 200 },
       ];
-      setFlights(newFlights);
+      setFlights(fetchedFlights);
     }
   };
 
   return (
-    <Box sx={{ width: "100%", textAlign: "center", padding: "2rem" }}>
-      <Typography variant="h4" gutterBottom>
-        Search Flights
-      </Typography>
+    <Container>
       <SearchForm onSearch={handleSearch} />
-      <Grid
-        container
-        spacing={2}
-        justifyContent="center"
-        sx={{ marginTop: "2rem" }}
-      >
-        {flights.map((flight) => (
-          <Grid item xs={12} sm={6} md={4} key={flight.id}>
-            <FlightCard flight={flight} />
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+      <FlightResults flights={flights} />
+    </Container>
   );
 };
 
