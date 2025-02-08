@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FlightSearchParams, FlightResponse } from "../types";
+import { FlightResponse, FlightSearchParams } from "../features/search/types";
 
 const API_HOST = "sky-scrapper.p.rapidapi.com";
 const API_KEY = process.env.REACT_APP_RAPIDAPI_KEY || "";

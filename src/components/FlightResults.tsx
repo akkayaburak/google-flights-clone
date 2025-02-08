@@ -1,22 +1,30 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Grid, Typography, Box } from "@mui/material";
 import FlightCard from "./FlightCard";
-import { Flight } from "../types";
-
-interface FlightResultsProps {
-  flights: Flight[];
-}
+import { FlightResultsProps } from "../types";
 
 const FlightResults: React.FC<FlightResultsProps> = ({ flights }) => {
+  if (flights.length === 0) {
+    return (
+      <Typography variant="h6" textAlign="center" sx={{ mt: 4 }}>
+        No flights found.
+      </Typography>
+    );
+  }
+
   return (
-    <Box>
-      {flights.length > 0 ? (
-        flights.map((flight) => <FlightCard key={flight.id} flight={flight} />)
-      ) : (
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
-          No flights found
-        </Typography>
-      )}
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h5" textAlign="center" sx={{ mb: 2 }}>
+        Flight Results
+      </Typography>
+
+      <Grid container spacing={2} justifyContent="center">
+        {flights.map((flight, index) => (
+          <Grid item key={index}>
+            <FlightCard flight={flight} />
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

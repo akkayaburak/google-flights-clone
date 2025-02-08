@@ -1,27 +1,35 @@
-// src/pages/Home.tsx
 import React, { useState } from "react";
+import { Container, Box } from "@mui/material";
 import FlightResults from "../components/FlightResults";
+import { Flight } from "../types";
 import SearchForm from "../features/search/SearchForm";
-import { Flight } from "../types"; // Flight tipini import et
-import { Container } from "@mui/material";
 
 const Home: React.FC = () => {
-  const [flights, setFlights] = useState<Flight[]>([]);
-
-  const handleSearch = (from: Date | null, to: Date | null) => {
-    if (from && to) {
-      const fetchedFlights: Flight[] = [
-        { id: "1", from: "New York", to: "London", price: 500 },
-        { id: "2", from: "Paris", to: "Berlin", price: 200 },
-      ];
-      setFlights(fetchedFlights);
-    }
-  };
+  const [flights, setFlights] = useState<Flight[]>([
+    {
+      from: "IST",
+      to: "JFK",
+      departureTime: "12:00",
+      arrivalTime: "18:00",
+      price: "$500",
+      airline: "Turkish Airlines",
+    },
+    {
+      from: "LAX",
+      to: "LHR",
+      departureTime: "14:00",
+      arrivalTime: "08:00",
+      price: "$450",
+      airline: "British Airways",
+    },
+  ]);
 
   return (
     <Container>
-      <SearchForm onSearch={handleSearch} />
-      <FlightResults flights={flights} />
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <SearchForm onSearch={() => {}} />
+        <FlightResults flights={flights} />
+      </Box>
     </Container>
   );
 };

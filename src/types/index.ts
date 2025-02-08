@@ -1,18 +1,20 @@
-// General API parameters
-export interface FlightSearchParams {
-  origin: string;
-  destination: string;
-  date: string;
-}
-
-// General API response
 export interface Flight {
-  id: string;
   from: string;
   to: string;
-  price: number;
+  departureTime: string;
+  arrivalTime: string;
+  price: string;
+  airline: string;
 }
 
-export interface FlightResponse {
+export interface SearchFormProps {
+  onSearch: (from: Date | null, to: Date | null) => void;
+}
+
+export interface FlightResultsProps {
   flights: Flight[];
+}
+
+export interface FlightCardProps {
+  flight: Flight;
 }

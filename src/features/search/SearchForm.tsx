@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers";
 
 interface SearchFormProps {
   onSearch: (from: Date | null, to: Date | null) => void;
@@ -26,45 +26,45 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
           alignItems="center"
           justifyContent="center"
           gap={2}
+          p={3}
+          sx={{
+            backgroundColor: "white",
+            borderRadius: 2,
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            width: "100%",
+            maxWidth: "600px",
+            mx: "auto",
+          }}
         >
-          <Typography
-            variant="h5"
-            gutterBottom
-            sx={{ width: "100%", textAlign: "center" }}
-          >
+          <Typography variant="h5" fontWeight="bold">
             Find Your Flight
           </Typography>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            width="100%"
-            gap={2}
-          >
-            <Box width="48%">
-              <DesktopDatePicker
-                label="From"
-                value={from}
-                onChange={(newValue) => setFrom(newValue)}
-                // renderInput={(params) => <TextField {...params} fullWidth />}
-              />
-            </Box>
+          <Box display="flex" flexWrap="wrap" gap={2} width="100%">
+            <DatePicker
+              label="From"
+              value={from}
+              onChange={(newValue) => setFrom(newValue)}
+              slotProps={{ textField: { fullWidth: true } }}
+            />
 
-            <Box width="48%">
-              <DesktopDatePicker
-                label="To"
-                value={to}
-                onChange={(newValue) => setTo(newValue)}
-                // renderInput={(params) => <TextField {...params} fullWidth />}
-              />
-            </Box>
+            <DatePicker
+              label="To"
+              value={to}
+              onChange={(newValue) => setTo(newValue)}
+              slotProps={{ textField: { fullWidth: true } }}
+            />
           </Box>
 
           <Button
             variant="contained"
             color="primary"
             type="submit"
-            sx={{ mt: 2 }}
+            sx={{
+              width: "100%",
+              backgroundColor: "#1a73e8",
+              "&:hover": { backgroundColor: "#1669c1" },
+            }}
           >
             Search
           </Button>

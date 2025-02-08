@@ -1,18 +1,21 @@
-// src/App.tsx
 import React from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import theme from "./theme";
-import Home from "./pages/Home"; // Home bileşenini import et
+import Header from "./layouts/Header";
+import Home from "./pages/Home";
 
 const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <Header />
+        <div style={{ marginTop: "80px" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </Router>
     </ThemeProvider>
   );
