@@ -21,63 +21,86 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [from, setFrom] = useState<Date | null>(null);
   const [fromAirport, setFromAirportState] = useState<Airport | null>(null);
   const [toAirport, setToAirportState] = useState<Airport | null>(null);
-  const [airportOptions, setAirportOptions] = useState<Airport[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [fromQuery, setFromQuery] = useState(""); // From için ayrı query
-  const [toQuery, setToQuery] = useState(""); // To için ayrı query
 
-  // Kullanıcı 2+ harf yazınca API'yi çağır (debounce ile)
+  // Separate queries for both inputs
+  const [fromQuery, setFromQuery] = useState(""); // From airport query
+  const [toQuery, setToQuery] = useState(""); // To airport query
+
+  // Separate loading states for both inputs
+  const [fromLoading, setFromLoading] = useState(false);
+  const [toLoading, setToLoading] = useState(false);
+
+  // Airport options for both inputs
+  const [fromAirportOptions, setFromAirportOptions] = useState<Airport[]>([]);
+  const [toAirportOptions, setToAirportOptions] = useState<Airport[]>([]);
+
+  // From airport search (debounced)
   useEffect(() => {
     if (fromQuery.length < 2) {
-      setAirportOptions([]); // 2 harften kısa ise boş bırak
+      setFromAirportOptions([]);
       return;
     }
 
     const delayDebounceFn = setTimeout(async () => {
-      setLoading(true);
+      setFromLoading(true);
       try {
-        const data: Airport[] = await searchAirport(fromQuery); // From için API çağrısı
-        setAirportOptions(data || []);
+        const data: Airport[] = await searchAirport(fromQuery);
+        setFromAirportOptions(data || []);
       } catch (error) {
         console.error("Airport fetch error:", error);
       }
-      setLoading(false);
-    }, 500); // 500ms debounce süresi
+      setFromLoading(false);
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [fromQuery]);
 
+  // To airport search (debounced)
   useEffect(() => {
     if (toQuery.length < 2) {
-      setAirportOptions([]); // 2 harften kısa ise boş bırak
+      setToAirportOptions([]);
       return;
     }
 
     const delayDebounceFn = setTimeout(async () => {
-      setLoading(true);
+      setToLoading(true);
       try {
-        const data: Airport[] = await searchAirport(toQuery); // To için API çağrısı
-        setAirportOptions(data || []);
+        const data: Airport[] = await searchAirport(toQuery);
+        setToAirportOptions(data || []);
       } catch (error) {
         console.error("Airport fetch error:", error);
       }
-      setLoading(false);
-    }, 500); // 500ms debounce süresi
+      setToLoading(false);
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [toQuery]);
 
-  const handleAirportChange =
-    (
-      setter: React.Dispatch<React.SetStateAction<Airport | null>>,
-      setAirport: any
-    ) =>
-    (_: any, newValue: Airport | null) => {
-      setter(newValue);
-      if (newValue) {
-        setAirport(newValue);
-      }
-    };
+  // Handle input change only (triggered when user types)
+  const handleFromInputChange = (_: any, newValue: string) => {
+    setFromQuery(newValue); // Update query only on input change
+  };
+
+  const handleToInputChange = (_: any, newValue: string) => {
+    setToQuery(newValue); // Update query only on input change
+  };
+
+  // Handle selection change (triggered when user selects an airport)
+  const handleFromChange = (_: any, newValue: Airport | null) => {
+    if (newValue) {
+      setFromAirportState(newValue);
+      setFromAirport(newValue); // Set selected airport without triggering search
+      setFromQuery(""); // Clear query when selection is made
+    }
+  };
+
+  const handleToChange = (_: any, newValue: Airport | null) => {
+    if (newValue) {
+      setToAirportState(newValue);
+      setToAirport(newValue); // Set selected airport without triggering search
+      setToQuery(""); // Clear query when selection is made
+    }
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -111,15 +134,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
             {/* From Airport Autocomplete */}
             <Autocomplete
               fullWidth
-              options={airportOptions}
+              options={fromAirportOptions}
               getOptionLabel={(option) => option.presentation.title}
               value={fromAirport}
-              loading={loading}
-              onInputChange={(_, newValue) => setFromQuery(newValue)} // From için ayrı query
-              onChange={handleAirportChange(
-                setFromAirportState,
-                setFromAirport
-              )}
+              loading={fromLoading}
+              onInputChange={handleFromInputChange} // Update query on input change
+              onChange={handleFromChange} // Handle selection without triggering search
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -128,7 +148,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {loading ? <CircularProgress size={20} /> : null}
+                        {fromLoading ? <CircularProgress size={20} /> : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
@@ -140,12 +160,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
             {/* To Airport Autocomplete */}
             <Autocomplete
               fullWidth
-              options={airportOptions}
+              options={toAirportOptions}
               getOptionLabel={(option) => option.presentation.title}
               value={toAirport}
-              loading={loading}
-              onInputChange={(_, newValue) => setToQuery(newValue)} // To için ayrı query
-              onChange={handleAirportChange(setToAirportState, setToAirport)}
+              loading={toLoading}
+              onInputChange={handleToInputChange} // Update query on input change
+              onChange={handleToChange} // Handle selection without triggering search
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -154,7 +174,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {loading ? <CircularProgress size={20} /> : null}
+                        {toLoading ? <CircularProgress size={20} /> : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
