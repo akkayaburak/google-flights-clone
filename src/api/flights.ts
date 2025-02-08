@@ -12,7 +12,7 @@ const apiClient = axios.create({
   },
 });
 
-// Uçuşları getir
+// Gets the flights.
 export const searchFlights = async (
   params: FlightSearchParams
 ): Promise<FlightResponse> => {

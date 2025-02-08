@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Container, Box } from "@mui/material";
 import FlightResults from "../components/FlightResults";
-import { searchAirport } from "../api/airport"; // Havalimanı API fonksiyonu
-import { searchFlights } from "../api/flights"; // Uçuş arama API fonksiyonu
+import { searchFlights } from "../api/flights";
 import { Airport, FlightResponse } from "../features/search/types";
 import SearchForm from "../features/search/SearchForm";
 
@@ -12,13 +11,13 @@ const Home: React.FC = () => {
   const [fromAirport, setFromAirport] = useState<Airport | null>(null);
   const [toAirport, setToAirport] = useState<Airport | null>(null);
 
-  // **Flight aramasını yap**
+  // **Flight search **
   const handleSearch = async (from: Date | null) => {
     if (!from || !fromAirport || !toAirport) return;
 
     setLoading(true);
     try {
-      const departureDate = from.toISOString().split("T")[0]; // YYYY-MM-DD formatına getir
+      const departureDate = from.toISOString().split("T")[0]; // YYYY-MM-DD format
 
       const response = await searchFlights({
         originSkyId: fromAirport.skyId,
@@ -28,7 +27,7 @@ const Home: React.FC = () => {
         date: departureDate,
       });
 
-      setFlights(response); // Flight sonuçlarını state'e al
+      setFlights(response);
     } catch (error) {
       console.error("Error fetching flights:", error);
     } finally {

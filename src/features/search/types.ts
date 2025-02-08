@@ -1,4 +1,3 @@
-// Havalimanı verisi için tip
 export interface Airport {
   presentation: { title: string };
   skyId: string;
@@ -9,16 +8,14 @@ export interface AirportResponse {
   data: Airport[];
 }
 
-// Uçuş arama parametreleri için tip
 export interface FlightSearchParams {
   originSkyId: string;
   destinationSkyId: string;
   originEntityId: string;
   destinationEntityId: string;
-  date: string; // YYYY-MM-DD formatında
+  date: string; // YYYY-MM-DD format
 }
 
-// Uçuş yanıtı tipi
 export interface FlightResponse {
   data: {
     itineraries: Flight[];
@@ -34,7 +31,6 @@ export interface FlightLeg {
   };
 }
 
-// Uçuş tipi
 export interface Flight {
   legs: FlightLeg[];
   departure: string;

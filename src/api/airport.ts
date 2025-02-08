@@ -12,13 +12,13 @@ const apiClient = axios.create({
   },
 });
 
-// Havalimanlarını getir
+// Gets the airports.
 export const searchAirport = async (query: string): Promise<Airport[]> => {
   try {
     const response = await apiClient.get<AirportResponse>(
       `/api/v1/flights/searchAirport?query=${query}`
     );
-    return response.data.data; // Yanıt tipini belirtiyoruz
+    return response.data.data;
   } catch (error) {
     console.error("Airport search error:", error);
     throw error;

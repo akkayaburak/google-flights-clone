@@ -9,7 +9,6 @@ export interface FlightLeg {
   };
 }
 
-// Uçuş tipi
 export interface Flight {
   legs: FlightLeg[];
   departure: string;
@@ -17,11 +16,10 @@ export interface Flight {
   price: { formatted: string };
 }
 
-// types.ts veya SearchForm içinde
 export interface SearchFormProps {
   onSearch: (from: Date | null) => Promise<void>;
-  setFromAirport: (airport: Airport) => void; // setFromAirport fonksiyonu
-  setToAirport: (airport: Airport) => void; // setToAirport fonksiyonu
+  setFromAirport: (airport: Airport) => void;
+  setToAirport: (airport: Airport) => void;
 }
 
 export interface FlightResultsProps {
