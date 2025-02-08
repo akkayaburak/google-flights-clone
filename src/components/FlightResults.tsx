@@ -4,7 +4,7 @@ import FlightCard from "./FlightCard";
 import { FlightResultsProps } from "../types";
 
 const FlightResults: React.FC<FlightResultsProps> = ({ flights }) => {
-  if (flights.length === 0) {
+  if (flights && flights.length === 0) {
     return (
       <Typography variant="h6" textAlign="center" sx={{ mt: 4 }}>
         No flights found.
@@ -19,11 +19,12 @@ const FlightResults: React.FC<FlightResultsProps> = ({ flights }) => {
       </Typography>
 
       <Grid container spacing={2} justifyContent="center">
-        {flights.map((flight, index) => (
-          <Grid item key={index}>
-            <FlightCard flight={flight} />
-          </Grid>
-        ))}
+        {flights &&
+          flights.map((flight, index) => (
+            <Grid item key={index}>
+              <FlightCard flight={flight} />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   );
