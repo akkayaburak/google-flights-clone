@@ -1,46 +1,116 @@
-# Getting Started with Create React App
+# Google Flights Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a simple flight search application that allows users to search for flights between selected airports. The app lists flights based on user inputs for departure/arrival airports and date, providing flight details including the price.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Airport Search:** Users can search for departure and arrival airports.
+- **Flight Search:** Users can view available flights based on the selected airports and date.
+- **Price Information:** The flight prices are displayed in the search results.
+- **Date Picker:** Users can select the desired departure date for the search.
 
-### `npm start`
+## Technologies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **React:** Used for building UI components.
+- **Material UI:** For designing the UI components.
+- **TypeScript:** To provide type safety and better developer experience.
+- **AdapterDateFns and DatePicker:** Used for the date selection UI.
+- **Axios:** Used for making API requests.
+- **Autocomplete:** Used for airport selection and search.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+This project is developed using React and TypeScript. You can follow these steps to run it locally on your machine.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+Make sure you have the following software installed:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js (v14 or higher)
+- npm or yarn (package manager)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installation
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone the repository:
 
-### `npm run eject`
+   ```bash
+   git clone https://github.com/akkayaburak/google-flights-clone.git
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Navigate to the project directory:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   cd google-flights-clone
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. Install the dependencies:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   Using npm:
 
-## Learn More
+   ```bash
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   Using yarn:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   yarn install
+   ```
+
+4. Start the project:
+
+   Using npm:
+
+   ```bash
+   npm start
+   ```
+
+   Using yarn:
+
+   ```bash
+   yarn start
+   ```
+
+You can now visit the app in your browser at [http://localhost:3000](http://localhost:3000).
+
+## Usage
+
+1. **Airport Search:**
+
+   - Users can select airports for departure and arrival by typing in the respective fields ("From Airport" and "To Airport").
+   - The search is triggered once at least 2 characters are typed in the input fields.
+   - The results are fetched from the API and displayed for user selection.
+
+2. **Flight Search:**
+
+   - After selecting the departure date and airports, users can click the "Search" button to search for available flights.
+   - The flights will be filtered based on the selected airports and date.
+
+3. **Flight Details:**
+   - The flight details, such as departure/arrival times and prices are shown for each flight.
+
+## Code Overview
+
+### `Home` Component
+
+The `Home` component is responsible for managing the flight search form, airport data, and flight results. It contains the following main states:
+
+- **flights**: Holds the list of flights returned from the API.
+- **loading**: Tracks the loading state when making API calls.
+- **airportData**: Stores airport data for both departure and arrival.
+- **fromAirport** and **toAirport**: Keep the selected airports for flight search.
+
+#### Key Functions:
+
+- **fetchAirportData**: Fetches a list of airports and stores them in the `airportData` state.
+- **handleSearch**: Handles the flight search logic by making an API call with selected airport and date details.
+
+### `SearchForm` Component
+
+The `SearchForm` component handles the user inputs for airport selection, date, and search submission.
+
+#### Key Features:
+
+- **Autocomplete for Airports**: The airports are searched dynamically as the user types in the input fields.
+- **Date Picker**: Allows the user to pick a date for the flight search.
+- **Search Button**: Triggers the flight search when clicked.
