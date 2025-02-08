@@ -1,29 +1,17 @@
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Box } from "@mui/material";
+import { Flight } from "../types";
 
-// Uçuş verilerini almak için FlightCardProps tipini tanımlıyoruz
 interface FlightCardProps {
-  flight: {
-    from: string;
-    to: string;
-    departureTime: string;
-    arrivalTime: string;
-    price: number;
-  };
+  flight: Flight;
 }
 
 const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ mb: 2, p: 2 }}>
       <CardContent>
-        <Typography variant="h6">
-          {flight.from} → {flight.to}
-        </Typography>
-        <Typography color="textSecondary">
-          Departure: {flight.departureTime}
-        </Typography>
-        <Typography color="textSecondary">
-          Arrival: {flight.arrivalTime}
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          {flight.from} to {flight.to}
         </Typography>
         <Typography variant="body1">Price: ${flight.price}</Typography>
       </CardContent>

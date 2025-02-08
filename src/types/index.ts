@@ -7,9 +7,9 @@ export interface FlightSearchParams {
 
 // General API response
 export interface Flight {
-  airline: string;
-  departureTime: string;
-  arrivalTime: string;
+  id: string;
+  from: string;
+  to: string;
   price: number;
 }
 

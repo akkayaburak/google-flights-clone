@@ -1,27 +1,23 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 import FlightCard from "./FlightCard";
-
-// Varsayılan flight verileri
-interface FlightData {
-  id: string;
-  from: string;
-  to: string;
-  departureTime: string;
-  arrivalTime: string;
-  price: number;
-}
+import { Flight } from "../types";
 
 interface FlightResultsProps {
-  flights: FlightData[];
+  flights: Flight[];
 }
 
 const FlightResults: React.FC<FlightResultsProps> = ({ flights }) => {
   return (
-    <div className="flight-results">
-      {flights.map((flight) => (
-        <FlightCard key={flight.id} flight={flight} />
-      ))}
-    </div>
+    <Box>
+      {flights.length > 0 ? (
+        flights.map((flight) => <FlightCard key={flight.id} flight={flight} />)
+      ) : (
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
+          No flights found
+        </Typography>
+      )}
+    </Box>
   );
 };
 

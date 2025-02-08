@@ -1,49 +1,76 @@
-import { useState } from "react";
-import { FlightSearchParams } from "../../types";
-import { TextField, Button, Box } from "@mui/material";
+import React, { useState } from "react";
+import { TextField, Button, Box, Typography } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 interface SearchFormProps {
-  onSearch: (params: FlightSearchParams) => void;
+  onSearch: (from: Date | null, to: Date | null) => void;
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
-  const [origin, setOrigin] = useState<string>("");
-  const [destination, setDestination] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+  const [from, setFrom] = useState<Date | null>(null);
+  const [to, setTo] = useState<Date | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch({ origin, destination, date });
+    onSearch(from, to);
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 2 }}
-    >
-      <TextField
-        label="From"
-        value={origin}
-        onChange={(e) => setOrigin(e.target.value)}
-        required
-      />
-      <TextField
-        label="Where"
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        required
-      />
-      <TextField
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        required
-      />
-      <Button type="submit" variant="contained">
-        Search
-      </Button>
-    </Box>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <form onSubmit={handleSubmit}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+        >
+          <Typography
+            variant="h5"
+            gutterBottom
+            sx={{ width: "100%", textAlign: "center" }}
+          >
+            Find Your Flight
+          </Typography>
+
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            width="100%"
+            gap={2}
+          >
+            <Box width="48%">
+              <DesktopDatePicker
+                label="From"
+                value={from}
+                onChange={(newValue) => setFrom(newValue)}
+                // renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+            </Box>
+
+            <Box width="48%">
+              <DesktopDatePicker
+                label="To"
+                value={to}
+                onChange={(newValue) => setTo(newValue)}
+                // renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+            </Box>
+          </Box>
+
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            sx={{ mt: 2 }}
+          >
+            Search
+          </Button>
+        </Box>
+      </form>
+    </LocalizationProvider>
   );
 };
 
