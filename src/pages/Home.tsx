@@ -47,7 +47,7 @@ const Home: React.FC = () => {
         {loading ? (
           <div>Loading...</div>
         ) : (
-          <FlightResults flights={flights?.flights || []} />
+          <FlightResults flights={flights?.data.itineraries || []} />
         )}
       </Box>
     </Container>

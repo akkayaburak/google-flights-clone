@@ -8,18 +8,14 @@ const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
   return (
     <Card sx={{ minWidth: 300, maxWidth: 400, m: 2, boxShadow: 3 }}>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 1 }}>
-          {flight.airline}
-        </Typography>
-
-        <Divider sx={{ mb: 2 }} />
-
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box textAlign="center">
             <FlightTakeoffIcon color="primary" />
-            <Typography variant="body1">{flight.from}</Typography>
+            <Typography variant="body1">
+              {flight.legs[0].origin.name}
+            </Typography>
             <Typography variant="caption" color="text.secondary">
-              {flight.departureTime}
+              {flight.departure}
             </Typography>
           </Box>
 
@@ -27,9 +23,11 @@ const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
 
           <Box textAlign="center">
             <FlightLandIcon color="primary" />
-            <Typography variant="body1">{flight.to}</Typography>
+            <Typography variant="body1">
+              {flight.legs[0].destination.name}
+            </Typography>
             <Typography variant="caption" color="text.secondary">
-              {flight.arrivalTime}
+              {flight.arrival}
             </Typography>
           </Box>
         </Box>
@@ -37,7 +35,7 @@ const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
         <Divider sx={{ my: 2 }} />
 
         <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>
-          {flight.price}
+          {flight.price.formatted}
         </Typography>
       </CardContent>
     </Card>

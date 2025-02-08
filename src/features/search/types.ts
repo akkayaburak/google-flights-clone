@@ -20,15 +20,24 @@ export interface FlightSearchParams {
 
 // Uçuş yanıtı tipi
 export interface FlightResponse {
-  flights: Flight[];
+  data: {
+    itineraries: Flight[];
+  };
+}
+
+export interface FlightLeg {
+  origin: {
+    name: string;
+  };
+  destination: {
+    name: string;
+  };
 }
 
 // Uçuş tipi
 export interface Flight {
-  from: string;
-  to: string;
-  departureTime: string;
-  arrivalTime: string;
-  price: string;
-  airline: string;
+  legs: FlightLeg[];
+  departure: string;
+  arrival: string;
+  price: { formatted: string };
 }

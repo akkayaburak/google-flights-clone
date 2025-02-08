@@ -16,7 +16,6 @@ const apiClient = axios.create({
 export const searchFlights = async (
   params: FlightSearchParams
 ): Promise<FlightResponse> => {
-  console.log(params);
   try {
     const response = await apiClient.get<FlightResponse>(
       "/api/v2/flights/searchFlights",

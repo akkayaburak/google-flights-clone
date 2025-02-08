@@ -1,12 +1,20 @@
 import { Airport } from "../features/search/types";
 
+export interface FlightLeg {
+  origin: {
+    name: string;
+  };
+  destination: {
+    name: string;
+  };
+}
+
+// Uçuş tipi
 export interface Flight {
-  from: string;
-  to: string;
-  departureTime: string;
-  arrivalTime: string;
-  price: string;
-  airline: string;
+  legs: FlightLeg[];
+  departure: string;
+  arrival: string;
+  price: { formatted: string };
 }
 
 // types.ts veya SearchForm içinde
@@ -17,7 +25,7 @@ export interface SearchFormProps {
 }
 
 export interface FlightResultsProps {
-  flights: Flight[] | null;
+  flights: Flight[] | undefined;
 }
 
 export interface FlightCardProps {
