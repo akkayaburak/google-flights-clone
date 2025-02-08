@@ -23,11 +23,12 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [toAirport, setToAirportState] = useState<Airport | null>(null);
   const [airportOptions, setAirportOptions] = useState<Airport[]>([]);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState(""); // Kullanıcı girdisi için state
+  const [fromQuery, setFromQuery] = useState(""); // From için ayrı query
+  const [toQuery, setToQuery] = useState(""); // To için ayrı query
 
   // Kullanıcı 2+ harf yazınca API'yi çağır (debounce ile)
   useEffect(() => {
-    if (query.length < 2) {
+    if (fromQuery.length < 2) {
       setAirportOptions([]); // 2 harften kısa ise boş bırak
       return;
     }
@@ -35,7 +36,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     const delayDebounceFn = setTimeout(async () => {
       setLoading(true);
       try {
-        const data: Airport[] = await searchAirport(query); // API çağrısı
+        const data: Airport[] = await searchAirport(fromQuery); // From için API çağrısı
         setAirportOptions(data || []);
       } catch (error) {
         console.error("Airport fetch error:", error);
@@ -44,7 +45,27 @@ const SearchForm: React.FC<SearchFormProps> = ({
     }, 500); // 500ms debounce süresi
 
     return () => clearTimeout(delayDebounceFn);
-  }, [query]);
+  }, [fromQuery]);
+
+  useEffect(() => {
+    if (toQuery.length < 2) {
+      setAirportOptions([]); // 2 harften kısa ise boş bırak
+      return;
+    }
+
+    const delayDebounceFn = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const data: Airport[] = await searchAirport(toQuery); // To için API çağrısı
+        setAirportOptions(data || []);
+      } catch (error) {
+        console.error("Airport fetch error:", error);
+      }
+      setLoading(false);
+    }, 500); // 500ms debounce süresi
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [toQuery]);
 
   const handleAirportChange =
     (
@@ -94,7 +115,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               getOptionLabel={(option) => option.presentation.title}
               value={fromAirport}
               loading={loading}
-              onInputChange={(_, newValue) => setQuery(newValue)}
+              onInputChange={(_, newValue) => setFromQuery(newValue)} // From için ayrı query
               onChange={handleAirportChange(
                 setFromAirportState,
                 setFromAirport
@@ -123,7 +144,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               getOptionLabel={(option) => option.presentation.title}
               value={toAirport}
               loading={loading}
-              onInputChange={(_, newValue) => setQuery(newValue)}
+              onInputChange={(_, newValue) => setToQuery(newValue)} // To için ayrı query
               onChange={handleAirportChange(setToAirportState, setToAirport)}
               renderInput={(params) => (
                 <TextField
