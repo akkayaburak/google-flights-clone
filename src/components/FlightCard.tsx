@@ -15,7 +15,7 @@ const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
               {flight.legs[0].origin.name}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {flight.departure}
+              {flight.legs[0].departure.slice(11, 16)}
             </Typography>
           </Box>
 
@@ -27,14 +27,19 @@ const FlightCard: React.FC<FlightCardProps> = ({ flight }) => {
               {flight.legs[0].destination.name}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              {flight.arrival}
+              {flight.legs[0].arrival.slice(11, 16)}
             </Typography>
           </Box>
         </Box>
 
         <Divider sx={{ my: 2 }} />
 
-        <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>
+        <Typography
+          textAlign={"center"}
+          variant="h6"
+          color="primary"
+          sx={{ fontWeight: "bold" }}
+        >
           {flight.price.formatted}
         </Typography>
       </CardContent>

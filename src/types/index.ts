@@ -1,6 +1,8 @@
 import { Airport } from "../features/search/types";
 
 export interface FlightLeg {
+  departure: string;
+  arrival: string;
   origin: {
     name: string;
   };
@@ -11,8 +13,6 @@ export interface FlightLeg {
 
 export interface Flight {
   legs: FlightLeg[];
-  departure: string;
-  arrival: string;
   price: { formatted: string };
 }
 
